@@ -10,33 +10,33 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
-import net.streamlinedmod.streamlined.blockentity.BasicEnergyCableBlockEntity;
-import net.streamlinedmod.streamlined.block.BasicEnergyCableBlock;
-import net.streamlinedmod.streamlined.geo.BasicEnergyCableGeoModel;
+import net.streamlinedmod.streamlined.blockentity.CopperEnergyCableBlockEntity;
+import net.streamlinedmod.streamlined.block.CopperEnergyCableBlock;
+import net.streamlinedmod.streamlined.geo.CopperEnergyCableGeoModel;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-public class BasicEnergyCableBlockRenderer<R extends BlockEntityRenderState & GeoRenderState> extends GeoBlockRenderer<BasicEnergyCableBlockEntity, @NonNull R> {
+public class CopperEnergyCableBlockRenderer<R extends BlockEntityRenderState & GeoRenderState> extends GeoBlockRenderer<CopperEnergyCableBlockEntity, @NonNull R> {
 
     private static final DataTicket<Integer> CONNECTIONS = DataTicket.create("streamlined_cable_connections", Integer.class);
 
-    public BasicEnergyCableBlockRenderer(BlockEntityRendererProvider.Context context) {
-        super(context, new BasicEnergyCableGeoModel());
+    public CopperEnergyCableBlockRenderer(BlockEntityRendererProvider.Context context) {
+        super(context, new CopperEnergyCableGeoModel());
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public static BlockEntityRenderer<BasicEnergyCableBlockEntity, ?> create(BlockEntityRendererProvider.Context context) {
-        return (BlockEntityRenderer) new BasicEnergyCableBlockRenderer(context);
+    public static BlockEntityRenderer<CopperEnergyCableBlockEntity, ?> create(BlockEntityRendererProvider.Context context) {
+        return (BlockEntityRenderer) new CopperEnergyCableBlockRenderer(context);
     }
 
     @Override
-    public void addRenderData(BasicEnergyCableBlockEntity cable, @Nullable Void relatedObject, @NonNull R renderState, float partialTick) {
+    public void addRenderData(CopperEnergyCableBlockEntity cable, @Nullable Void relatedObject, @NonNull R renderState, float partialTick) {
         int mask = 0;
         Level level = cable.getLevel();
 
         if (level != null) {
             for (Direction dir : Direction.values()) {
-                if (BasicEnergyCableBlock.isConnected(level, cable.getBlockPos(), dir)) {
+                if (CopperEnergyCableBlock.isConnected(level, cable.getBlockPos(), dir)) {
                     mask |= 1 << dir.ordinal();
                 }
             }
@@ -46,7 +46,7 @@ public class BasicEnergyCableBlockRenderer<R extends BlockEntityRenderState & Ge
     }
 
     @Override
-    public void adjustModelBonesForRender(RenderPassInfo<R> renderPassInfo, BoneSnapshots snapshots) {
+    public void adjustModelBonesForRender(RenderPassInfo<@NonNull R> renderPassInfo, @NonNull BoneSnapshots snapshots) {
         int mask = renderPassInfo.getOrDefaultGeckolibData(CONNECTIONS, 0);
 
         for (Direction dir : Direction.values()) {

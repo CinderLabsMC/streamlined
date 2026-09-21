@@ -4,9 +4,10 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import org.jspecify.annotations.NonNull;
 
-/** Beispiel: einfacher GUI-Screen mit Text und Button. */
 public class ExampleScreen extends Screen {
+
     private int clicks;
 
     public ExampleScreen() {
@@ -22,7 +23,7 @@ public class ExampleScreen extends Screen {
     }
 
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         super.extractRenderState(graphics, mouseX, mouseY, partialTick);
         graphics.centeredText(font, title, width / 2, height / 2 - 40, 0xFFFFFFFF);
     }

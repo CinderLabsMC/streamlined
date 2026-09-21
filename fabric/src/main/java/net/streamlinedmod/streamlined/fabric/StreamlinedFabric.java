@@ -7,9 +7,11 @@ import net.fabricmc.api.ModInitializer;
 import team.reborn.energy.api.EnergyStorage;
 
 public final class StreamlinedFabric implements ModInitializer {
+
     @Override
     public void onInitialize() {
         Streamlined.init();
+        EnergyBridge.setExternalLookup(new FabricExternalEnergy());
         for (var type : EnergyBridge.types()) {
             EnergyStorage.SIDED.registerForBlockEntity((be, side) -> {
                 var energy = be instanceof EnergyProvider p ? p.getEnergy(side) : null;

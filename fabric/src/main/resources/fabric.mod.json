@@ -8,6 +8,15 @@
     "main": [
       "net.streamlinedmod.streamlined.fabric.StreamlinedFabric"
     ],
+    "client": [
+      "net.streamlinedmod.streamlined.fabric.StreamlinedFabricClient"
+    ],
+    "jade": [
+      "net.streamlinedmod.streamlined.compat.jade.StreamlinedJadePlugin"
+    ],
+    "jei_mod_plugin": [
+      "net.streamlinedmod.streamlined.compat.jei.StreamlinedJeiPlugin"
+    ],
     "modmenu": [
       "net.streamlinedmod.streamlined.fabric.StreamlinedModMenu"
     ]

@@ -7,5 +7,9 @@ dependencies {
     implementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     api "com.geckolib:geckolib-common-${minecraft_version}:${geckolib_version}"
     api "me.shedaniel.cloth:cloth-config:${cloth_config_version}"
+    // Optionale Integrationen: nur zum Kompilieren (Jade-API steckt im Jade-Jar, JEI hat ein eigenes Common-API-Artefakt)
+    compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
+    compileOnly "maven.modrinth:jade:${jade_version}+fabric"
+
     api "dev.architectury:architectury:${architectury_api_version}"
 }

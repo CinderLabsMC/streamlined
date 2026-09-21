@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.world.entity.EntityType;
 
 public class ExampleEntityRenderer extends GeoEntityRenderer<ExampleEntity, EntityRenderState> {
+
     public ExampleEntityRenderer(EntityRendererProvider.Context context, EntityType<? extends ExampleEntity> type) {
         super(context, type);
     }

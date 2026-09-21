@@ -4,8 +4,8 @@ import net.streamlinedmod.streamlined.energy.SimpleEnergy;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
+import org.jspecify.annotations.NonNull;
 
-/** Stellt einen {@link SimpleEnergy} als NeoForge-EnergyHandler (FE) bereit. */
 final class NeoForgeEnergyAdapter extends SnapshotJournal<Long> implements EnergyHandler {
     private final SimpleEnergy energy;
 
@@ -14,7 +14,7 @@ final class NeoForgeEnergyAdapter extends SnapshotJournal<Long> implements Energ
     }
 
     @Override
-    public int insert(int amount, TransactionContext tx) {
+    public int insert(int amount, @NonNull TransactionContext tx) {
         int moved = (int) energy.insert(amount, true);
         if (moved > 0) {
             updateSnapshots(tx);
@@ -24,7 +24,7 @@ final class NeoForgeEnergyAdapter extends SnapshotJournal<Long> implements Energ
     }
 
     @Override
-    public int extract(int amount, TransactionContext tx) {
+    public int extract(int amount, @NonNull TransactionContext tx) {
         int moved = (int) energy.extract(amount, true);
         if (moved > 0) {
             updateSnapshots(tx);

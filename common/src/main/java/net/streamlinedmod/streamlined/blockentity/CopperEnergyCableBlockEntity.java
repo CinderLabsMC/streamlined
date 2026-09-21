@@ -7,7 +7,7 @@ import com.geckolib.util.GeckoLibUtil;
 import net.streamlinedmod.streamlined.energy.CableNetworks;
 import net.streamlinedmod.streamlined.energy.EnergyProvider;
 import net.streamlinedmod.streamlined.energy.SimpleEnergy;
-import net.streamlinedmod.streamlined.block.BasicEnergyCableBlock;
+import net.streamlinedmod.streamlined.block.CopperEnergyCableBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -16,12 +16,18 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-public class BasicEnergyCableBlockEntity extends BlockEntity implements EnergyProvider, GeoBlockEntity {
+public class CopperEnergyCableBlockEntity extends BlockEntity implements EnergyProvider, GeoBlockEntity {
+
+    public static final long FLOW_RATE = 100;
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    public BasicEnergyCableBlockEntity(BlockPos pos, BlockState state) {
-        super(BasicEnergyCableBlock.CABLE_BE.get(), pos, state);
+    public CopperEnergyCableBlockEntity(BlockPos pos, BlockState state) {
+        super(CopperEnergyCableBlock.CABLE_BE.get(), pos, state);
+    }
+
+    public long getFlowRate() {
+        return FLOW_RATE;
     }
 
     @Override

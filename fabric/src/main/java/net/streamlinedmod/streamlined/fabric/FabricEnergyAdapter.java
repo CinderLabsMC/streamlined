@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 import team.reborn.energy.api.EnergyStorage;
 
-/** Stellt einen {@link SimpleEnergy} als Team-Reborn-EnergyStorage bereit. */
 final class FabricEnergyAdapter extends SnapshotParticipant<Long> implements EnergyStorage {
     private final SimpleEnergy energy;
 

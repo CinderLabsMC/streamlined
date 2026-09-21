@@ -7,7 +7,17 @@
   "key.categories.streamlined": "Streamlined",
 
   "block.streamlined.battery": "Example Battery",
-  "block.streamlined.basic_energy_cable": "Example Cable",
+  "block.streamlined.copper_energy_cable": "Copper Energy Cable",
+  "block.streamlined.brass_energy_cable": "Brass Energy Cable",
   "block.streamlined.generator": "Example Generator",
-  "itemGroup.streamlined.general": "Streamlined"
+
+  "itemGroup.streamlined.general": "Streamlined",
+
+  "jade.streamlined.flow_rate": "Flow rate: %s FE/t",
+  "jade.streamlined.burning": "Burning: %ss left",
+  "jade.streamlined.idle": "Idle (needs coal)",
+
+  "jei.streamlined.generator": "Burns coal or charcoal from its slot (400 ticks per item) and produces 20 FE/t. Pushes energy into adjacent storages and cables.",
+  "jei.streamlined.battery": "Stores up to 10,000 FE. Fills and drains at 100 FE/t through cables.",
+  "jei.streamlined.cable": "Connects generators, batteries and machines from other mods into one network. Throughput: 100 FE/t, limited by the slowest cable."
 }

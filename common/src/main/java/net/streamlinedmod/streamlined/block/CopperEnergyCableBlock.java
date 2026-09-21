@@ -6,10 +6,11 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.streamlinedmod.streamlined.blockentity.BasicEnergyCableBlockEntity;
+import net.streamlinedmod.streamlined.blockentity.CopperEnergyCableBlockEntity;
 import net.streamlinedmod.streamlined.blockentity.ModBlockEntities;
 import net.streamlinedmod.streamlined.energy.EnergyBridge;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -17,11 +18,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.streamlinedmod.streamlined.energy.EnergyProvider;
+import net.streamlinedmod.streamlined.item.CopperEnergyCableItem;
 import org.jspecify.annotations.NonNull;
 
 import java.util.Set;
 
-public final class BasicEnergyCableBlock extends Block implements EntityBlock {
+public final class CopperEnergyCableBlock extends Block implements EntityBlock {
 
     private static final VoxelShape CORE = Block.box(6, 6, 6, 10, 10, 10);
     private static final VoxelShape NORTH = Block.box(6, 6, 0, 10, 10, 6);
@@ -31,10 +33,10 @@ public final class BasicEnergyCableBlock extends Block implements EntityBlock {
     private static final VoxelShape DOWN = Block.box(6, 0, 6, 10, 6, 10);
     private static final VoxelShape UP = Block.box(6, 10, 6, 10, 16, 10);
 
-    public static final RegistrySupplier<Block> CABLE = ModBlocks.block("basic_energy_cable", BasicEnergyCableBlock::new);
+    public static final RegistrySupplier<Block> CABLE = ModBlocks.block("copper_energy_cable", CopperEnergyCableBlock::new, CopperEnergyCableItem::new);
 
-    public static final RegistrySupplier<BlockEntityType<BasicEnergyCableBlockEntity>> CABLE_BE = ModBlockEntities.BLOCK_ENTITIES.register("basic_energy_cable",
-            () -> new BlockEntityType<>(BasicEnergyCableBlockEntity::new, Set.of(CABLE.get())));
+    public static final RegistrySupplier<BlockEntityType<CopperEnergyCableBlockEntity>> CABLE_BE = ModBlockEntities.BLOCK_ENTITIES.register("copper_energy_cable",
+            () -> new BlockEntityType<>(CopperEnergyCableBlockEntity::new, Set.of(CABLE.get())));
 
     static {
         EnergyBridge.register(CABLE_BE);
@@ -43,7 +45,7 @@ public final class BasicEnergyCableBlock extends Block implements EntityBlock {
     public static void init() {
     }
 
-    BasicEnergyCableBlock(Properties props) {
+    CopperEnergyCableBlock(Properties props) {
         super(props);
     }
 
@@ -54,13 +56,18 @@ public final class BasicEnergyCableBlock extends Block implements EntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(@NonNull BlockPos pos, @NonNull BlockState state) {
-        return new BasicEnergyCableBlockEntity(pos, state);
+        return new CopperEnergyCableBlockEntity(pos, state);
     }
 
     public static boolean isConnected(BlockGetter level, BlockPos pos, Direction dir) {
         BlockEntity neighbor = level.getBlockEntity(pos.relative(dir));
-        return neighbor instanceof BasicEnergyCableBlockEntity
-                || neighbor instanceof EnergyProvider provider && provider.getEnergy(dir.getOpposite()) != null;
+        return switch (neighbor) {
+            case null -> false;
+            case CopperEnergyCableBlockEntity _ -> true;
+            case EnergyProvider provider -> provider.getEnergy(dir.getOpposite()) != null;
+            default -> level instanceof Level real
+                    && EnergyBridge.findExternal(real, pos.relative(dir), dir.getOpposite()) != null;
+        };
     }
 
     @Override

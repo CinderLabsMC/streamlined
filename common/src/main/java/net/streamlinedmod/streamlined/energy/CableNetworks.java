@@ -5,13 +5,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.streamlinedmod.streamlined.blockentity.BasicEnergyCableBlockEntity;
+import net.streamlinedmod.streamlined.blockentity.CopperEnergyCableBlockEntity;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,13 +31,13 @@ public final class CableNetworks {
         TickEvent.SERVER_LEVEL_POST.register(CableNetworks::tick);
     }
 
-    public static void add(ServerLevel level, BasicEnergyCableBlockEntity cable) {
+    public static void add(ServerLevel level, CopperEnergyCableBlockEntity cable) {
         LevelState state = STATES.computeIfAbsent(level, l -> new LevelState());
         state.cables.put(cable.getBlockPos().immutable(), cable);
         state.dirty = true;
     }
 
-    public static void remove(ServerLevel level, BasicEnergyCableBlockEntity cable) {
+    public static void remove(ServerLevel level, CopperEnergyCableBlockEntity cable) {
         LevelState state = STATES.get(level);
         if (state != null && state.cables.remove(cable.getBlockPos(), cable)) {
             state.dirty = true;
@@ -61,7 +60,7 @@ public final class CableNetworks {
     }
 
     private static final class LevelState {
-        final Map<BlockPos, BasicEnergyCableBlockEntity> cables = new HashMap<>();
+        final Map<BlockPos, CopperEnergyCableBlockEntity> cables = new HashMap<>();
         List<Network> networks = List.of();
         boolean dirty;
 
@@ -74,7 +73,7 @@ public final class CableNetworks {
                 if (!visited.add(start)) {
                     continue;
                 }
-                List<BasicEnergyCableBlockEntity> members = new ArrayList<>();
+                List<CopperEnergyCableBlockEntity> members = new ArrayList<>();
                 ArrayDeque<BlockPos> queue = new ArrayDeque<>();
                 queue.add(start);
                 while (!queue.isEmpty()) {
@@ -93,28 +92,37 @@ public final class CableNetworks {
         }
     }
 
-    private record Endpoint(BlockEntity be, SimpleEnergy energy) {}
+    private record Endpoint(BlockEntity be, EnergyHandle energy) {}
 
     private static final class Network {
-        final List<BasicEnergyCableBlockEntity> cables;
+        final List<CopperEnergyCableBlockEntity> cables;
         List<Endpoint> endpoints = List.of();
         boolean collected;
+        final long flowRate;
 
-        Network(List<BasicEnergyCableBlockEntity> cables) {
+        Network(List<CopperEnergyCableBlockEntity> cables) {
             this.cables = cables;
+            this.flowRate = cables.stream().mapToLong(CopperEnergyCableBlockEntity::getFlowRate).min().orElse(0);
         }
 
         void collectEndpoints(ServerLevel level) {
-            Map<SimpleEnergy, Endpoint> unique = new IdentityHashMap<>();
-            for (BasicEnergyCableBlockEntity cable : cables) {
+            Map<BlockPos, Endpoint> unique = new HashMap<>();
+            for (CopperEnergyCableBlockEntity cable : cables) {
                 BlockPos pos = cable.getBlockPos();
                 for (Direction dir : DIRECTIONS) {
-                    BlockEntity be = level.getBlockEntity(pos.relative(dir));
-                    if (be instanceof EnergyProvider provider && !(be instanceof BasicEnergyCableBlockEntity)) {
-                        SimpleEnergy energy = provider.getEnergy(dir.getOpposite());
-                        if (energy != null) {
-                            unique.putIfAbsent(energy, new Endpoint(be, energy));
-                        }
+                    BlockPos neighborPos = pos.relative(dir);
+                    if (unique.containsKey(neighborPos)) {
+                        continue;
+                    }
+                    BlockEntity be = level.getBlockEntity(neighborPos);
+                    if (be == null || be instanceof CopperEnergyCableBlockEntity) {
+                        continue;
+                    }
+                    EnergyHandle energy = be instanceof EnergyProvider provider
+                            ? provider.getEnergy(dir.getOpposite())
+                            : EnergyBridge.findExternal(level, neighborPos, dir.getOpposite());
+                    if (energy != null) {
+                        unique.put(neighborPos.immutable(), new Endpoint(be, energy));
                     }
                 }
             }
@@ -156,13 +164,15 @@ public final class CableNetworks {
 
             List<Endpoint> consumers = new ArrayList<>(sinks);
             consumers.addAll(buffers);
-            move(sources, consumers, time);
-            move(buffers, sinks, time);
+
+            long budget = flowRate;
+            budget -= move(sources, consumers, time, budget);
+            move(buffers, sinks, time, budget);
         }
 
-        private static void move(List<Endpoint> from, List<Endpoint> to, long time) {
-            if (from.isEmpty() || to.isEmpty()) {
-                return;
+        private static long move(List<Endpoint> from, List<Endpoint> to, long time, long limit) {
+            if (from.isEmpty() || to.isEmpty() || limit <= 0) {
+                return 0;
             }
 
             long supply = 0;
@@ -170,9 +180,9 @@ public final class CableNetworks {
             for (Endpoint e : from) supply += e.energy().extract(UNLIMITED, true);
             for (Endpoint e : to) demand += e.energy().insert(UNLIMITED, true);
 
-            long total = Math.min(supply, demand);
+            long total = Math.min(Math.min(supply, demand), limit);
             if (total <= 0) {
-                return;
+                return 0;
             }
 
             long remaining = total;
@@ -188,6 +198,7 @@ public final class CableNetworks {
                 remaining -= e.energy().insert(remaining, false);
                 e.be().setChanged();
             }
+            return total;
         }
     }
 }

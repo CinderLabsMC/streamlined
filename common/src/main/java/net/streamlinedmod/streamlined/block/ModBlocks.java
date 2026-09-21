@@ -18,7 +18,7 @@ public class ModBlocks {
 
     public static void init() {
         BatteryBlock.init();
-        BasicEnergyCableBlock.init();
+        CopperEnergyCableBlock.init();
         GeneratorBlock.init();
 
         BLOCKS.register();
@@ -30,9 +30,14 @@ public class ModBlocks {
 
 
     public static RegistrySupplier<Block> block(String name, java.util.function.Function<BlockBehaviour.Properties, Block> factory) {
+        return block(name, factory, BlockItem::new);
+    }
+
+    public static RegistrySupplier<Block> block(String name, java.util.function.Function<BlockBehaviour.Properties, Block> factory,
+                                                java.util.function.BiFunction<Block, Item.Properties, ? extends Item> itemFactory) {
         RegistrySupplier<Block> block = BLOCKS.register(name, () -> factory.apply(BlockBehaviour.Properties.of()
                 .strength(1.5f).setId(ResourceKey.create(Registries.BLOCK, id(name)))));
-        ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()
+        ModItems.ITEMS.register(name, () -> itemFactory.apply(block.get(), new Item.Properties()
                 .setId(ResourceKey.create(Registries.ITEM, id(name))).useBlockDescriptionPrefix()));
         return block;
     }

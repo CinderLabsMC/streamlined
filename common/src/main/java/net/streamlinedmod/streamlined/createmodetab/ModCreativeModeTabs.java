@@ -9,7 +9,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.streamlinedmod.streamlined.Streamlined;
 import net.streamlinedmod.streamlined.block.BatteryBlock;
-import net.streamlinedmod.streamlined.block.BasicEnergyCableBlock;
+import net.streamlinedmod.streamlined.block.CopperEnergyCableBlock;
 import net.streamlinedmod.streamlined.block.GeneratorBlock;
 
 public class ModCreativeModeTabs {
@@ -26,6 +26,6 @@ public class ModCreativeModeTabs {
     public static void init() {
         CREATIVE_MODE_TABS.register();
 
-        CreativeTabRegistry.append(GENERAL_TAB, BatteryBlock.BATTERY, BasicEnergyCableBlock.CABLE, GeneratorBlock.GENERATOR);
+        CreativeTabRegistry.append(GENERAL_TAB, BatteryBlock.BATTERY, CopperEnergyCableBlock.CABLE, GeneratorBlock.GENERATOR);
     }
 }
