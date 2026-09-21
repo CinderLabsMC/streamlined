@@ -1,0 +1,30 @@
+plugins {
+    id 'net.neoforged.moddev' version "${moddev_version}"
+}
+
+neoForge {
+    version = neoforge_version
+
+    runs {
+        client { client() }
+        server { server() }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+            sourceSet project(':common').sourceSets.main
+        }
+    }
+}
+
+dependencies {
+    implementation "dev.architectury:architectury-neoforge:${architectury_api_version}"
+    implementation "com.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
+    implementation "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
+    compileOnly project(':common')
+}
+
+tasks.jar {
+    from project(':common').sourceSets.main.output
+}

@@ -1,0 +1,11 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version "${fabric_loom_version}"
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    api "com.geckolib:geckolib-common-${minecraft_version}:${geckolib_version}"
+    api "me.shedaniel.cloth:cloth-config:${cloth_config_version}"
+    api "dev.architectury:architectury:${architectury_api_version}"
+}
