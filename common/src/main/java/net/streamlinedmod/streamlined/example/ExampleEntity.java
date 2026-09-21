@@ -10,9 +10,10 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import org.jspecify.annotations.NonNull;
 
-/** Beispiel: GeckoLib-animierte Entity (Idle-Animation "misc.idle"). */
 public class ExampleEntity extends PathfinderMob implements GeoEntity {
+
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     public ExampleEntity(EntityType<? extends PathfinderMob> type, Level level) {
@@ -29,7 +30,7 @@ public class ExampleEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public @NonNull AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
     }
 }

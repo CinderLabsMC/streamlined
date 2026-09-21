@@ -1,9 +1,13 @@
 {
   "item.streamlined.example_item": "Example Item",
+
   "entity.streamlined.example_entity": "Example Entity",
+
   "key.streamlined.open_screen": "Open Example Screen",
   "key.categories.streamlined": "Streamlined",
+
   "block.streamlined.battery": "Example Battery",
-  "block.streamlined.cable": "Example Cable",
-  "block.streamlined.generator": "Example Generator"
+  "block.streamlined.basic_energy_cable": "Example Cable",
+  "block.streamlined.generator": "Example Generator",
+  "itemGroup.streamlined.general": "Streamlined"
 }

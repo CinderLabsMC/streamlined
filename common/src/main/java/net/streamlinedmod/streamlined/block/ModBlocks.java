@@ -18,7 +18,7 @@ public class ModBlocks {
 
     public static void init() {
         BatteryBlock.init();
-        CableBlock.init();
+        BasicEnergyCableBlock.init();
         GeneratorBlock.init();
 
         BLOCKS.register();

@@ -10,8 +10,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 
-/** Beispiel: Entity-Typ registrieren + Attribute. */
 public final class ExampleEntities {
+
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Streamlined.MOD_ID, Registries.ENTITY_TYPE);
 
     public static final RegistrySupplier<EntityType<ExampleEntity>> EXAMPLE_ENTITY = ENTITIES.register("example_entity", () ->

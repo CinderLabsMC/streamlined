@@ -8,8 +8,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 
-/** Beispiel: Item registrieren (Architectury DeferredRegister). */
 public final class ExampleItems {
+
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Streamlined.MOD_ID, Registries.ITEM);
 
     public static final RegistrySupplier<Item> EXAMPLE_ITEM = ITEMS.register("example_item", () ->

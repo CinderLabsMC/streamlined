@@ -1,4 +1,4 @@
-package net.streamlinedmod.streamlined.example.client;
+package net.streamlinedmod.streamlined.client;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
