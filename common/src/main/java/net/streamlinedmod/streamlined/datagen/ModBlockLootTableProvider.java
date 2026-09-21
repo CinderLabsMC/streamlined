@@ -3,10 +3,12 @@ package net.streamlinedmod.streamlined.datagen;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.streamlinedmod.streamlined.block.BatteryBlock;
 import net.streamlinedmod.streamlined.block.CopperEnergyCableBlock;
 import net.streamlinedmod.streamlined.block.GeneratorBlock;
 
+import java.util.List;
 import java.util.Set;
 
 public class ModBlockLootTableProvider extends BlockLootSubProvider {
@@ -17,10 +19,14 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-        dropSelf(BatteryBlock.BATTERY.get());
+        ownBlocks().forEach(this::dropSelf);
+    }
 
-        dropSelf(CopperEnergyCableBlock.CABLE.get());
-
-        dropSelf(GeneratorBlock.GENERATOR.get());
+    /** Alle Blöcke dieser Mod. Loader, die die Validierung auf eigene Blöcke beschränken müssen (NeoForge: getKnownBlocks), nutzen diese Liste. */
+    public static List<Block> ownBlocks() {
+        return List.of(
+                BatteryBlock.BATTERY.get(),
+                CopperEnergyCableBlock.CABLE.get(),
+                GeneratorBlock.GENERATOR.get());
     }
 }

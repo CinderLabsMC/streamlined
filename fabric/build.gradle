@@ -25,6 +25,7 @@ dependencies {
 // common hat keine fabric.mod.json und ist für den Fabric Loader daher kein Mod: Assets/Daten aus common
 // müssen im Resources-Ordner dieses Moduls landen, sonst werden Lang/Modelle/Texturen nicht geladen.
 sourceSets.main.resources.srcDir project(':common').file('src/main/resources')
+sourceSets.main.resources.srcDir project(':common').file('src/generated/resources')
 
 tasks.processResources {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE

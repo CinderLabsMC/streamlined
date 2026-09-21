@@ -8,6 +8,9 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.streamlinedmod.streamlined.datagen.ModDataGenerators;
+import java.util.Set;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
@@ -21,6 +24,8 @@ public final class StreamlinedNeoForge {
         Streamlined.init();
         EnergyBridge.setExternalLookup(new NeoForgeExternalEnergy());
         modBus.addListener(StreamlinedNeoForge::registerCapabilities);
+        modBus.addListener(GatherDataEvent.Server.class, event ->
+                event.createReloadableRegistryObjects(ModDataGenerators.reloadableRegistries(NeoForgeBlockLootTables::new), Set.of(Streamlined.MOD_ID)));
 
         modBus.addListener(RegisterMenuScreensEvent.class, event -> event.register(ModMenus.GENERATOR.get(), GeneratorScreen::new));
         container.registerExtensionPoint(IConfigScreenFactory.class,

@@ -8,6 +8,13 @@ neoForge {
     runs {
         client { client() }
         server { server() }
+        // ./gradlew :neoforge:runData -> schreibt Rezepte/Loot nach common/src/generated/resources
+        data {
+            serverData()
+            programArguments.addAll '--mod', mod_id, '--all',
+                    '--output', rootProject.file('common/src/generated/resources').absolutePath,
+                    '--existing', rootProject.file('common/src/main/resources').absolutePath
+        }
     }
 
     mods {

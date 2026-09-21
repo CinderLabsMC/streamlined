@@ -1,0 +1,6 @@
+- Server rack with nvme, ssd, hdd for item storage
+- Screwing rack on top to open casing to change components on work station
+
+- Multi block structure for core and sub-cores (max 4 sub-cores - configurable)
+
+- Processor in server for crafting logic and simultaneously processes
