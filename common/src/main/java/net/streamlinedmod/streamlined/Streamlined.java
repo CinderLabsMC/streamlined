@@ -10,7 +10,7 @@ import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
 import net.streamlinedmod.streamlined.example.ExampleEntities;
 import net.streamlinedmod.streamlined.example.ExampleEvents;
-import net.streamlinedmod.streamlined.energy.CableNetworks;
+import net.streamlinedmod.streamlined.energy.EnergyCableNetworks;
 import net.streamlinedmod.streamlined.menu.ModMenus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public final class Streamlined {
 
         ModBlockEntities.init();
         ModMenus.init();
-        CableNetworks.init();
+        EnergyCableNetworks.init();
 
         ExampleEntities.init();
         ExampleEvents.init();

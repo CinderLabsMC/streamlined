@@ -11,13 +11,14 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.streamlinedmod.streamlined.block.CableBlock;
 import net.streamlinedmod.streamlined.cable.CableType;
-import net.streamlinedmod.streamlined.energy.CableNetworks;
+import net.streamlinedmod.streamlined.energy.EnergyCableNetworks;
 import net.streamlinedmod.streamlined.energy.EnergyProvider;
 import net.streamlinedmod.streamlined.energy.SimpleEnergy;
+import net.streamlinedmod.streamlined.storage.StorageProvider;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-public final class CableBlockEntity extends BlockEntity implements EnergyProvider, GeoBlockEntity {
+public final class CableBlockEntity extends BlockEntity implements EnergyProvider, StorageProvider, GeoBlockEntity {
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
@@ -29,8 +30,8 @@ public final class CableBlockEntity extends BlockEntity implements EnergyProvide
         return ((CableBlock) getBlockState().getBlock()).type();
     }
 
-    public long flowRate() {
-        return type().flowRate();
+    public long rate() {
+        return type().rate();
     }
 
     @Override
@@ -46,7 +47,7 @@ public final class CableBlockEntity extends BlockEntity implements EnergyProvide
             return;
         }
 
-        CableNetworks.add(server, this);
+        EnergyCableNetworks.add(server, this);
     }
 
     @Override
@@ -57,7 +58,7 @@ public final class CableBlockEntity extends BlockEntity implements EnergyProvide
             return;
         }
 
-        CableNetworks.remove(server, this);
+        EnergyCableNetworks.remove(server, this);
     }
 
     @Override

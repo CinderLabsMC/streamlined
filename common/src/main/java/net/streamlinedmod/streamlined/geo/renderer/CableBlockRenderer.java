@@ -32,12 +32,12 @@ public final class CableBlockRenderer<R extends BlockEntityRenderState & GeoRend
         var geometry = type.geometry();
         var level = cable.getLevel();
 
-        int connections = level == null ? 0 : CableBlock.connectionMask(level, cable.getBlockPos());
+        int connections = level == null ? 0 : CableBlock.connectionMask(level, cable.getBlockPos(), type.type());
 
         renderState.addGeckolibData(CableRenderData.CONNECTIONS, connections);
         renderState.addGeckolibData(CableRenderData.MODEL, geometry.blockModel());
         renderState.addGeckolibData(CableRenderData.TEXTURE, type.texture());
-        renderState.addGeckolibData(CableRenderData.SCALE, geometry.renderScale());
+        renderState.addGeckolibData(CableRenderData.SCALE, 1.0f);
     }
 
     @Override

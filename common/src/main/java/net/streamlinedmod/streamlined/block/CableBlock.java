@@ -2,6 +2,7 @@ package net.streamlinedmod.streamlined.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.Container;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -16,6 +17,7 @@ import net.streamlinedmod.streamlined.blockentity.CableBlockEntity;
 import net.streamlinedmod.streamlined.cable.CableType;
 import net.streamlinedmod.streamlined.energy.EnergyBridge;
 import net.streamlinedmod.streamlined.energy.EnergyProvider;
+import net.streamlinedmod.streamlined.storage.StorageProvider;
 import org.jspecify.annotations.NonNull;
 
 public final class CableBlock extends Block implements EntityBlock {
@@ -48,14 +50,14 @@ public final class CableBlock extends Block implements EntityBlock {
 
     @Override
     protected @NonNull VoxelShape getShape(@NonNull BlockState state, @NonNull BlockGetter level, @NonNull BlockPos pos, @NonNull CollisionContext context) {
-        return shapes[connectionMask(level, pos)];
+        return shapes[connectionMask(level, pos, this.type.type())];
     }
 
-    public static int connectionMask(BlockGetter level, BlockPos pos) {
+    public static int connectionMask(BlockGetter level, BlockPos pos, CableType.Type type) {
         int mask = 0;
 
         for (var dir : DIRECTIONS) {
-            if (!isConnected(level, pos, dir)) {
+            if (!isConnected(level, pos, dir, type)) {
                 continue;
             }
 
@@ -65,23 +67,39 @@ public final class CableBlock extends Block implements EntityBlock {
         return mask;
     }
 
-    public static boolean isConnected(BlockGetter level, BlockPos pos, Direction dir) {
+    public static boolean isConnected(BlockGetter level, BlockPos pos, Direction dir, CableType.Type type) {
         var target = pos.relative(dir);
         var neighbor = level.getBlockEntity(target);
 
-        if (neighbor instanceof CableBlockEntity) {
-            return true;
+        if (neighbor instanceof CableBlockEntity cableBlockEntity) {
+            CableType neighborCableType = cableBlockEntity.type();
+            if (neighborCableType == null) {
+                return false;
+            }
+
+            return neighborCableType.type() == type;
         }
 
-        if (neighbor instanceof EnergyProvider provider && provider.getEnergy(dir.getOpposite()) != null) {
-            return true;
-        }
-
-        if (!(level instanceof Level real)) {
-            return false;
-        }
-
-        return EnergyBridge.findExternal(real, target, dir.getOpposite()) != null;
+        return switch (type) {
+            case ENERGY -> {
+                if (neighbor instanceof EnergyProvider provider && provider.getEnergy(dir.getOpposite()) != null) {
+                    yield true;
+                }
+                if (level instanceof Level real) {
+                    yield EnergyBridge.findExternal(real, target, dir.getOpposite()) != null;
+                }
+                yield false;
+            }
+            case STORAGE -> {
+                if (neighbor instanceof StorageProvider) {
+                    yield true;
+                }
+                if (level instanceof Level real) {
+                    yield neighbor instanceof Container;
+                }
+                yield false;
+            }
+        };
     }
 
     private static VoxelShape[] createShapes(int width) {

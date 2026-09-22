@@ -16,7 +16,7 @@ public class ModRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildRecipes() {
-        shaped(RecipeCategory.MISC, ModCables.COPPER.block().get(), 8)
+        shaped(RecipeCategory.MISC, ModCables.COPPER_ENERGY.block().get(), 8)
                 .pattern("CCC")
                 .pattern("RBR")
                 .pattern("CCC")

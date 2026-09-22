@@ -8,9 +8,11 @@ import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.streamlinedmod.streamlined.block.RackShelfBlock;
 import net.streamlinedmod.streamlined.blockentity.ModBlockEntities;
 import net.streamlinedmod.streamlined.example.ExampleEntities;
 import net.streamlinedmod.streamlined.geo.renderer.CableBlockRenderer;
+import net.streamlinedmod.streamlined.geo.renderer.RackShelfBlockRenderer;
 
 public class StreamlinedClient {
 
@@ -27,6 +29,9 @@ public class StreamlinedClient {
             }
         });
 
-        ClientLifecycleEvent.CLIENT_SETUP.register(minecraft -> BlockEntityRendererRegistry.register(ModBlockEntities.CABLE.get(), CableBlockRenderer::create));
+        ClientLifecycleEvent.CLIENT_SETUP.register(minecraft -> {
+            BlockEntityRendererRegistry.register(ModBlockEntities.CABLE.get(), CableBlockRenderer::create);
+            BlockEntityRendererRegistry.register(RackShelfBlock.RACK_SHELF_BE.get(), RackShelfBlockRenderer::create);
+        });
     }
 }

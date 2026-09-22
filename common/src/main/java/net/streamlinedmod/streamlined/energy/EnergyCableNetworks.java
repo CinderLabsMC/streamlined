@@ -6,6 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.streamlinedmod.streamlined.blockentity.CableBlockEntity;
+import net.streamlinedmod.streamlined.cable.CableType;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -15,21 +16,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-public final class CableNetworks {
+public final class EnergyCableNetworks {
 
-    private static final long UNLIMITED = Long.MAX_VALUE;
+    public static final long UNLIMITED = Long.MAX_VALUE;
+
     private static final int ENDPOINT_REFRESH_TICKS = 10;
     private static final Direction[] DIRECTIONS = Direction.values();
 
     private static final Map<ServerLevel, LevelState> STATES = new WeakHashMap<>();
 
-    private CableNetworks() {}
+    private EnergyCableNetworks() {}
 
     public static void init() {
-        TickEvent.SERVER_LEVEL_POST.register(CableNetworks::tick);
+        TickEvent.SERVER_LEVEL_POST.register(EnergyCableNetworks::tick);
     }
 
     public static void add(ServerLevel level, CableBlockEntity cable) {
+        if (cable.type().type() != CableType.Type.ENERGY) {
+            return;
+        }
+
         var state = STATES.computeIfAbsent(level, _ -> new LevelState());
 
         state.cables.put(cable.getBlockPos().immutable(), cable);
@@ -37,6 +43,10 @@ public final class CableNetworks {
     }
 
     public static void remove(ServerLevel level, CableBlockEntity cable) {
+        if (cable.type().type() != CableType.Type.ENERGY) {
+            return;
+        }
+
         var state = STATES.get(level);
 
         if (state == null) {
@@ -130,7 +140,7 @@ public final class CableNetworks {
     private static final class Network {
 
         final List<CableBlockEntity> cables;
-        final long flowRate;
+        final long rate;
 
         List<Endpoint> endpoints = List.of();
 
@@ -138,7 +148,7 @@ public final class CableNetworks {
 
         Network(List<CableBlockEntity> cables) {
             this.cables = cables;
-            this.flowRate = cables.stream().mapToLong(CableBlockEntity::flowRate).min().orElse(0);
+            this.rate = cables.stream().mapToLong(CableBlockEntity::rate).min().orElse(0);
         }
 
         void collectEndpoints(ServerLevel level) {
@@ -222,7 +232,7 @@ public final class CableNetworks {
 
             consumers.addAll(buffers);
 
-            long budget = flowRate;
+            long budget = rate;
 
             budget -= move(sources, consumers, time, budget);
 

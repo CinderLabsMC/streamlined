@@ -1,7 +1,6 @@
 package net.streamlinedmod.streamlined.geo.renderer;
 
 import com.geckolib.renderer.GeoItemRenderer;
-import com.geckolib.renderer.GeoItemRenderer.RenderData;
 import com.geckolib.renderer.base.BoneSnapshots;
 import com.geckolib.renderer.base.GeoRenderState;
 import com.geckolib.renderer.base.RenderPassInfo;
@@ -24,11 +23,11 @@ public final class CableItemRenderer extends GeoItemRenderer<CableItem> {
 
         renderState.addGeckolibData(CableRenderData.MODEL, geometry.itemModel());
         renderState.addGeckolibData(CableRenderData.TEXTURE, type.texture());
-        renderState.addGeckolibData(CableRenderData.SCALE, geometry.renderScale());
+        renderState.addGeckolibData(CableRenderData.SCALE, 1.0f);
     }
 
     @Override
-    public void adjustModelBonesForRender(RenderPassInfo<GeoRenderState> renderPassInfo, BoneSnapshots snapshots) {
+    public void adjustModelBonesForRender(RenderPassInfo<GeoRenderState> renderPassInfo, @NonNull BoneSnapshots snapshots) {
         float scale = renderPassInfo.getOrDefaultGeckolibData(CableRenderData.SCALE, 1f);
 
         scale(snapshots, "core", scale, scale, scale);

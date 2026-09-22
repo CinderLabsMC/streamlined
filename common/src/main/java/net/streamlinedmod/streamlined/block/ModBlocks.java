@@ -21,9 +21,12 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Streamlined.MOD_ID, Registries.BLOCK);
 
     public static void init() {
-        BatteryBlock.init();
         ModCables.init();
+
+        BatteryBlock.init();
         GeneratorBlock.init();
+
+        RackShelfBlock.init();
 
         BLOCKS.register();
     }

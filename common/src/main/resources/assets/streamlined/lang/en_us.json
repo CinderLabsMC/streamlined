@@ -6,15 +6,17 @@
   "key.streamlined.open_screen": "Open Example Screen",
   "key.categories.streamlined": "Streamlined",
 
-  "block.streamlined.battery": "Example Battery",
+  "block.streamlined.battery": "Basic Battery",
   "block.streamlined.copper_energy_cable": "Copper Energy Cable",
   "block.streamlined.aluminium_energy_cable": "Aluminium Energy Cable",
   "block.streamlined.brass_energy_cable": "Brass Energy Cable",
-  "block.streamlined.generator": "Example Generator",
+  "block.streamlined.generator": "Coal Generator",
+  "block.streamlined.rack_shelf": "Rack Shelf",
 
   "itemGroup.streamlined.general": "Streamlined",
 
-  "jade.streamlined.flow_rate": "Flow rate: %s FE/t",
+  "jade.streamlined.flow_rate": "Flow rate: %s",
+  "jade.streamlined.channels": "Channels: %s",
   "jade.streamlined.burning": "Burning: %ss left",
   "jade.streamlined.idle": "Idle (needs coal)",
 

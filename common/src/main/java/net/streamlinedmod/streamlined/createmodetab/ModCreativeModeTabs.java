@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.streamlinedmod.streamlined.Streamlined;
 import net.streamlinedmod.streamlined.block.BatteryBlock;
 import net.streamlinedmod.streamlined.block.GeneratorBlock;
+import net.streamlinedmod.streamlined.block.RackShelfBlock;
 import net.streamlinedmod.streamlined.cable.ModCables;
 
 public class ModCreativeModeTabs {
@@ -21,12 +22,14 @@ public class ModCreativeModeTabs {
     public static void init() {
         CREATIVE_MODE_TABS.register();
 
-        CreativeTabRegistry.append(GENERAL_TAB, BatteryBlock.BATTERY);
-
         for (var cable : ModCables.values()) {
             CreativeTabRegistry.append(GENERAL_TAB, cable.block());
         }
 
+        CreativeTabRegistry.append(GENERAL_TAB, BatteryBlock.BATTERY);
+
         CreativeTabRegistry.append(GENERAL_TAB, GeneratorBlock.GENERATOR);
+
+        CreativeTabRegistry.append(GENERAL_TAB, RackShelfBlock.RACK_SHELF);
     }
 }
