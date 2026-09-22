@@ -2,15 +2,11 @@ package net.streamlinedmod.streamlined.cable;
 
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.world.level.block.Block;
-import net.streamlinedmod.streamlined.block.CableBlock;
-import net.streamlinedmod.streamlined.block.ModBlocks;
+import net.streamlinedmod.streamlined.block.Cable;
 import net.streamlinedmod.streamlined.energy.EnergyCableNetworks;
-import net.streamlinedmod.streamlined.item.CableItem;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public final class ModCables {
 
@@ -72,14 +68,8 @@ public final class ModCables {
         return List.copyOf(CABLES);
     }
 
-    public static Set<Block> blocks() {
-        return CABLES.stream().map(Entry::block).map(RegistrySupplier::get).collect(Collectors.toUnmodifiableSet());
-    }
-
     private static Entry register(CableType type) {
-        var block = ModBlocks.block(type.name(), props -> new CableBlock(type, props), (value, props) -> new CableItem(type, value, props));
-
-        var entry = new Entry(type, block);
+        var entry = new Entry(type, Cable.register(type).blockEntry());
         CABLES.add(entry);
 
         return entry;

@@ -27,6 +27,7 @@ neoForge {
 
 dependencies {
     implementation "dev.architectury:architectury-neoforge:${architectury_api_version}"
+    implementation "net.cinderlabsmc:cinderlib-neoforge:${cinderlib_version}"
     implementation "com.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
     implementation "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"

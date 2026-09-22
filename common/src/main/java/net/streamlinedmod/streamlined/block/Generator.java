@@ -1,16 +1,14 @@
-package net.streamlinedmod.streamlined.blockentity;
+package net.streamlinedmod.streamlined.block;
 
-import net.streamlinedmod.streamlined.block.GeneratorBlock;
-import net.streamlinedmod.streamlined.energy.EnergyProvider;
-import net.streamlinedmod.streamlined.energy.SimpleEnergy;
-import net.streamlinedmod.streamlined.menu.GeneratorMenu;
 import dev.architectury.registry.menu.ExtendedMenuDataProvider;
+import net.cinderlabsmc.cinderlib.block.CinderBlock;
+import net.cinderlabsmc.cinderlib.block.CinderBlockEntity;
+import net.cinderlabsmc.cinderlib.block.CinderBlockType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
@@ -19,16 +17,27 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.streamlinedmod.streamlined.energy.EnergyBridge;
+import net.streamlinedmod.streamlined.energy.EnergyProvider;
+import net.streamlinedmod.streamlined.energy.SimpleEnergy;
+import net.streamlinedmod.streamlined.menu.GeneratorMenu;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-public class GeneratorBlockEntity extends BlockEntity implements EnergyProvider, ExtendedMenuDataProvider<BlockPos> {
+public final class Generator extends CinderBlockEntity implements EnergyProvider, ExtendedMenuDataProvider<BlockPos> {
+
+    public static final CinderBlockType<Generator> TYPE = CinderBlock.builder(ModBlocks.REGISTRAR, "generator")
+            .blockEntity(Generator::new)
+            .ticking()
+            .register();
+
+    static {
+        EnergyBridge.register(TYPE::blockEntityType);
+    }
 
     private static final long PER_TICK = 20;
     private static final int BURN_TICKS_PER_ITEM = 400;
@@ -39,12 +48,12 @@ public class GeneratorBlockEntity extends BlockEntity implements EnergyProvider,
         @Override
         public void setChanged() {
             super.setChanged();
-            GeneratorBlockEntity.this.setChanged();
+            Generator.this.setChanged();
         }
 
         @Override
         public boolean stillValid(@NonNull Player player) {
-            return Container.stillValidBlockEntity(GeneratorBlockEntity.this, player);
+            return Container.stillValidBlockEntity(Generator.this, player);
         }
     };
 
@@ -72,8 +81,8 @@ public class GeneratorBlockEntity extends BlockEntity implements EnergyProvider,
         }
     };
 
-    public GeneratorBlockEntity(BlockPos pos, BlockState state) {
-        super(GeneratorBlock.GENERATOR_BE.get(), pos, state);
+    public Generator(@NonNull BlockEntityType<?> type, @NonNull BlockPos pos, @NonNull BlockState state) {
+        super(type, pos, state);
     }
 
     public int getBurnTime() {
@@ -81,13 +90,50 @@ public class GeneratorBlockEntity extends BlockEntity implements EnergyProvider,
     }
 
     @Override
-    public @Nullable SimpleEnergy getEnergy(@Nullable Direction side) {
+    public @NonNull SimpleEnergy getEnergy(@Nullable Direction side) {
         return energy;
     }
 
     @Override
-    public @NonNull Component getDisplayName() {
-        return Component.translatable("block.streamlined.generator");
+    public void serverTick() {
+        if (burnTime <= 0 && energy.getAmount() < energy.getCapacity()) {
+            var fuel = inventory.getItem(0);
+            if (fuel.is(ItemTags.COALS)) {
+                fuel.shrink(1);
+                burnTime = burnTotal = BURN_TICKS_PER_ITEM;
+            }
+        }
+
+        if (burnTime > 0) {
+            burnTime--;
+            energy.setAmount(energy.getAmount() + PER_TICK);
+        }
+
+        for (var dir : Direction.values()) {
+            if (level == null) {
+                continue;
+            }
+
+            if (!(level.getBlockEntity(worldPosition.relative(dir)) instanceof EnergyProvider provider)) {
+                continue;
+            }
+
+            var other = provider.getEnergy(dir.getOpposite());
+            if (other == null) {
+                continue;
+            }
+
+            long moved = other.insert(energy.extract(Long.MAX_VALUE, true), true);
+            if (moved > 0) {
+                other.insert(energy.extract(moved, false), false);
+            }
+        }
+        setChanged();
+    }
+
+    @Override
+    protected @NonNull Container getDroppedContents() {
+        return inventory;
     }
 
     @Override
@@ -103,30 +149,6 @@ public class GeneratorBlockEntity extends BlockEntity implements EnergyProvider,
     @Override
     public AbstractContainerMenu createMenu(int id, @NonNull Inventory playerInventory, @NonNull Player player) {
         return new GeneratorMenu(id, playerInventory, inventory, data);
-    }
-
-    public static void serverTick(Level level, BlockPos pos, BlockState state, GeneratorBlockEntity gen) {
-        if (gen.burnTime <= 0 && gen.energy.getAmount() < gen.energy.getCapacity()) {
-            ItemStack fuel = gen.inventory.getItem(0);
-            if (fuel.is(ItemTags.COALS)) {
-                fuel.shrink(1);
-                gen.burnTime = gen.burnTotal = BURN_TICKS_PER_ITEM;
-            }
-        }
-
-        if (gen.burnTime > 0) {
-            gen.burnTime--;
-            gen.energy.setAmount(gen.energy.getAmount() + PER_TICK);
-        }
-
-        for (Direction dir : Direction.values()) {
-            if (!(level.getBlockEntity(pos.relative(dir)) instanceof EnergyProvider provider)) continue;
-            SimpleEnergy other = provider.getEnergy(dir.getOpposite());
-            if (other == null) continue;
-            long moved = other.insert(gen.energy.extract(Long.MAX_VALUE, true), true);
-            if (moved > 0) other.insert(gen.energy.extract(moved, false), false);
-        }
-        gen.setChanged();
     }
 
     @Override

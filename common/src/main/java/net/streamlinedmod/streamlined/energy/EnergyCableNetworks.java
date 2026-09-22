@@ -5,7 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.streamlinedmod.streamlined.blockentity.CableBlockEntity;
+import net.streamlinedmod.streamlined.block.Cable;
 import net.streamlinedmod.streamlined.cable.CableType;
 
 import java.util.ArrayDeque;
@@ -31,7 +31,7 @@ public final class EnergyCableNetworks {
         TickEvent.SERVER_LEVEL_POST.register(EnergyCableNetworks::tick);
     }
 
-    public static void add(ServerLevel level, CableBlockEntity cable) {
+    public static void add(ServerLevel level, Cable cable) {
         if (cable.type().type() != CableType.Type.ENERGY) {
             return;
         }
@@ -42,7 +42,7 @@ public final class EnergyCableNetworks {
         state.dirty = true;
     }
 
-    public static void remove(ServerLevel level, CableBlockEntity cable) {
+    public static void remove(ServerLevel level, Cable cable) {
         if (cable.type().type() != CableType.Type.ENERGY) {
             return;
         }
@@ -81,7 +81,7 @@ public final class EnergyCableNetworks {
 
     private static final class LevelState {
 
-        final Map<BlockPos, CableBlockEntity> cables = new HashMap<>();
+        final Map<BlockPos, Cable> cables = new HashMap<>();
 
         List<Network> networks = List.of();
 
@@ -98,7 +98,7 @@ public final class EnergyCableNetworks {
                     continue;
                 }
 
-                var members = new ArrayList<CableBlockEntity>();
+                var members = new ArrayList<Cable>();
                 var queue = new ArrayDeque<BlockPos>();
 
                 queue.add(start);
@@ -139,16 +139,16 @@ public final class EnergyCableNetworks {
 
     private static final class Network {
 
-        final List<CableBlockEntity> cables;
+        final List<Cable> cables;
         final long rate;
 
         List<Endpoint> endpoints = List.of();
 
         boolean collected;
 
-        Network(List<CableBlockEntity> cables) {
+        Network(List<Cable> cables) {
             this.cables = cables;
-            this.rate = cables.stream().mapToLong(CableBlockEntity::rate).min().orElse(0);
+            this.rate = cables.stream().mapToLong(Cable::rate).min().orElse(0);
         }
 
         void collectEndpoints(ServerLevel level) {
@@ -170,7 +170,7 @@ public final class EnergyCableNetworks {
                         continue;
                     }
 
-                    if (be instanceof CableBlockEntity) {
+                    if (be instanceof Cable) {
                         continue;
                     }
 

@@ -2,10 +2,8 @@ package net.streamlinedmod.streamlined.pipe;
 
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.world.level.block.Block;
-import net.streamlinedmod.streamlined.block.CableBlock;
 import net.streamlinedmod.streamlined.block.ModBlocks;
 import net.streamlinedmod.streamlined.energy.EnergyCableNetworks;
-import net.streamlinedmod.streamlined.item.CableItem;
 
 import java.util.ArrayList;
 import java.util.List;

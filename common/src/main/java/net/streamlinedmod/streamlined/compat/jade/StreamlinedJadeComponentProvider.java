@@ -3,7 +3,8 @@ package net.streamlinedmod.streamlined.compat.jade;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.streamlinedmod.streamlined.Streamlined;
-import net.streamlinedmod.streamlined.block.CableBlock;
+import net.streamlinedmod.streamlined.block.Cable;
+import net.streamlinedmod.streamlined.block.Generator;
 import org.jspecify.annotations.NonNull;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
@@ -18,7 +19,7 @@ public enum StreamlinedJadeComponentProvider implements IBlockComponentProvider 
 
     @Override
     public void appendTooltip(@NonNull ITooltip tooltip, BlockAccessor accessor, @NonNull IPluginConfig config) {
-        if (accessor.getBlock() instanceof CableBlock cable) {
+        if (accessor.getBlockEntity() instanceof Cable cable) {
 
             switch (cable.type().type()) {
                 case ENERGY -> {
@@ -33,6 +34,10 @@ public enum StreamlinedJadeComponentProvider implements IBlockComponentProvider 
                     tooltip.add(Component.translatable("jade.streamlined.channels", rate));
                 }
             }
+            return;
+        }
+
+        if (!(accessor.getBlockEntity() instanceof Generator)) {
             return;
         }
 

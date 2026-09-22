@@ -15,4 +15,5 @@ dependencies {
     compileOnly "maven.modrinth:jade:${jade_version}+fabric"
 
     api "dev.architectury:architectury:${architectury_api_version}"
+    api "net.cinderlabsmc:cinderlib-common:${cinderlib_version}"
 }

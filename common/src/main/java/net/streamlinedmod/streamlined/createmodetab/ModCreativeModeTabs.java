@@ -8,16 +8,16 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.streamlinedmod.streamlined.Streamlined;
-import net.streamlinedmod.streamlined.block.BatteryBlock;
-import net.streamlinedmod.streamlined.block.GeneratorBlock;
-import net.streamlinedmod.streamlined.block.RackShelfBlock;
+import net.streamlinedmod.streamlined.block.Battery;
+import net.streamlinedmod.streamlined.block.Generator;
+import net.streamlinedmod.streamlined.block.RackShelf;
 import net.streamlinedmod.streamlined.cable.ModCables;
 
 public class ModCreativeModeTabs {
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Streamlined.MOD_ID, Registries.CREATIVE_MODE_TAB);
 
-    public static final RegistrySupplier<CreativeModeTab> GENERAL_TAB = CREATIVE_MODE_TABS.register("general", () -> CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0).icon(() -> new ItemStack(BatteryBlock.BATTERY.get().asItem())).title(Component.translatable("itemGroup.streamlined.general")).build());
+    public static final RegistrySupplier<CreativeModeTab> GENERAL_TAB = CREATIVE_MODE_TABS.register("general", () -> CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0).icon(() -> new ItemStack(Battery.TYPE.block())).title(Component.translatable("itemGroup.streamlined.general")).build());
 
     public static void init() {
         CREATIVE_MODE_TABS.register();
@@ -26,10 +26,10 @@ public class ModCreativeModeTabs {
             CreativeTabRegistry.append(GENERAL_TAB, cable.block());
         }
 
-        CreativeTabRegistry.append(GENERAL_TAB, BatteryBlock.BATTERY);
+        CreativeTabRegistry.append(GENERAL_TAB, Battery.TYPE.blockEntry());
 
-        CreativeTabRegistry.append(GENERAL_TAB, GeneratorBlock.GENERATOR);
+        CreativeTabRegistry.append(GENERAL_TAB, Generator.TYPE.blockEntry());
 
-        CreativeTabRegistry.append(GENERAL_TAB, RackShelfBlock.RACK_SHELF);
+        CreativeTabRegistry.append(GENERAL_TAB, RackShelf.TYPE.blockEntry());
     }
 }

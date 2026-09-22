@@ -3,7 +3,7 @@ package net.streamlinedmod.streamlined.compat.jade;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
 import net.streamlinedmod.streamlined.Streamlined;
-import net.streamlinedmod.streamlined.blockentity.GeneratorBlockEntity;
+import net.streamlinedmod.streamlined.block.Generator;
 import org.jspecify.annotations.NonNull;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IServerDataProvider;
@@ -16,7 +16,7 @@ public enum StreamlinedJadeDataProvider implements IServerDataProvider<BlockAcce
 
     @Override
     public void appendServerData(@NonNull CompoundTag data, BlockAccessor accessor) {
-        if (accessor.getBlockEntity() instanceof GeneratorBlockEntity generator) {
+        if (accessor.getBlockEntity() instanceof Generator generator) {
             data.putInt(BURN_KEY, generator.getBurnTime());
         }
     }

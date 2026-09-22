@@ -1,10 +1,8 @@
 package net.streamlinedmod.streamlined;
 
 import net.streamlinedmod.streamlined.block.ModBlocks;
-import net.streamlinedmod.streamlined.blockentity.ModBlockEntities;
 import net.streamlinedmod.streamlined.client.StreamlinedClient;
 import net.streamlinedmod.streamlined.createmodetab.ModCreativeModeTabs;
-import net.streamlinedmod.streamlined.item.ModItems;
 import net.streamlinedmod.streamlined.example.ExampleConfig;
 import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
@@ -26,11 +24,9 @@ public final class Streamlined {
         ExampleConfig.init();
 
         ModBlocks.init();
-        ModItems.init();
 
         ModCreativeModeTabs.init();
 
-        ModBlockEntities.init();
         ModMenus.init();
         EnergyCableNetworks.init();
 

@@ -1,18 +1,12 @@
 package net.streamlinedmod.streamlined.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
-import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.streamlinedmod.streamlined.block.RackShelfBlock;
-import net.streamlinedmod.streamlined.blockentity.ModBlockEntities;
 import net.streamlinedmod.streamlined.example.ExampleEntities;
-import net.streamlinedmod.streamlined.geo.renderer.CableBlockRenderer;
-import net.streamlinedmod.streamlined.geo.renderer.RackShelfBlockRenderer;
 
 public class StreamlinedClient {
 
@@ -27,11 +21,6 @@ public class StreamlinedClient {
             while (OPEN_SCREEN.consumeClick()) {
                 Minecraft.getInstance().setScreenAndShow(new ExampleScreen());
             }
-        });
-
-        ClientLifecycleEvent.CLIENT_SETUP.register(minecraft -> {
-            BlockEntityRendererRegistry.register(ModBlockEntities.CABLE.get(), CableBlockRenderer::create);
-            BlockEntityRendererRegistry.register(RackShelfBlock.RACK_SHELF_BE.get(), RackShelfBlockRenderer::create);
         });
     }
 }
