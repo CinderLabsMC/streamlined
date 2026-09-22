@@ -7,9 +7,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.streamlinedmod.streamlined.Streamlined;
-import net.streamlinedmod.streamlined.block.CopperEnergyCableBlock;
 import net.streamlinedmod.streamlined.block.BatteryBlock;
 import net.streamlinedmod.streamlined.block.GeneratorBlock;
+import net.streamlinedmod.streamlined.cable.ModCables;
 import org.jspecify.annotations.NonNull;
 
 @JeiPlugin
@@ -24,6 +24,9 @@ public class StreamlinedJeiPlugin implements IModPlugin {
     public void registerRecipes(IRecipeRegistration registration) {
         registration.addItemStackInfo(new ItemStack(GeneratorBlock.GENERATOR.get()), Component.translatable("jei.streamlined.generator"));
         registration.addItemStackInfo(new ItemStack(BatteryBlock.BATTERY.get()), Component.translatable("jei.streamlined.battery"));
-        registration.addItemStackInfo(new ItemStack(CopperEnergyCableBlock.CABLE.get()), Component.translatable("jei.streamlined.cable"));
+
+        for (var cable : ModCables.values()) {
+            registration.addItemStackInfo(new ItemStack(cable.block().get()), Component.translatable("jei.streamlined.cable"));
+        }
     }
 }

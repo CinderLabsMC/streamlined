@@ -3,6 +3,7 @@ package net.streamlinedmod.streamlined.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -11,19 +12,22 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.streamlinedmod.streamlined.blockentity.CableBlockEntity;
 import net.streamlinedmod.streamlined.cable.CableType;
-import org.jspecify.annotations.Nullable;
+import net.streamlinedmod.streamlined.energy.EnergyBridge;
+import net.streamlinedmod.streamlined.energy.EnergyProvider;
+import org.jspecify.annotations.NonNull;
 
 public final class CableBlock extends Block implements EntityBlock {
 
     private static final Direction[] DIRECTIONS = Direction.values();
 
     private final CableType type;
-
     private final VoxelShape[] shapes;
 
-    public CableBlock(CableType type, Properties properties) {
-        super(properties);
+    public CableBlock(CableType type, Properties props) {
+        super(props);
+
         this.type = type;
         this.shapes = createShapes(type.geometry().collisionWidth());
     }
@@ -33,35 +37,51 @@ public final class CableBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected RenderShape getRenderShape(BlockState state) {
+    protected @NonNull RenderShape getRenderShape(@NonNull BlockState state) {
         return RenderShape.INVISIBLE;
     }
 
     @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos worldPosition, BlockState blockState) {
-        // TODO: Return Block Entity
-        return null;
+    public BlockEntity newBlockEntity(@NonNull BlockPos pos, @NonNull BlockState state) {
+        return new CableBlockEntity(pos, state);
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return shapes[]
+    protected @NonNull VoxelShape getShape(@NonNull BlockState state, @NonNull BlockGetter level, @NonNull BlockPos pos, @NonNull CollisionContext context) {
+        return shapes[connectionMask(level, pos)];
     }
 
     public static int connectionMask(BlockGetter level, BlockPos pos) {
         int mask = 0;
 
         for (var dir : DIRECTIONS) {
-            if (!)
+            if (!isConnected(level, pos, dir)) {
+                continue;
+            }
+
+            mask |= 1 << dir.ordinal();
         }
+
+        return mask;
     }
 
     public static boolean isConnected(BlockGetter level, BlockPos pos, Direction dir) {
         var target = pos.relative(dir);
         var neighbor = level.getBlockEntity(target);
 
-        // Check Instances
-        return true;
+        if (neighbor instanceof CableBlockEntity) {
+            return true;
+        }
+
+        if (neighbor instanceof EnergyProvider provider && provider.getEnergy(dir.getOpposite()) != null) {
+            return true;
+        }
+
+        if (!(level instanceof Level real)) {
+            return false;
+        }
+
+        return EnergyBridge.findExternal(real, target, dir.getOpposite()) != null;
     }
 
     private static VoxelShape[] createShapes(int width) {
@@ -76,16 +96,16 @@ public final class CableBlock extends Block implements EntityBlock {
         arms[Direction.SOUTH.ordinal()] = Block.box(min, min, max, max, max, 16);
         arms[Direction.WEST.ordinal()] = Block.box(0, min, min, min, max, max);
         arms[Direction.EAST.ordinal()] = Block.box(max, min, min, 16, max, max);
-        arms[Direction.UP.ordinal()] = Block.box(min, max, min, max, 16, max);
         arms[Direction.DOWN.ordinal()] = Block.box(min, 0, min, max, min, max);
+        arms[Direction.UP.ordinal()] = Block.box(min, max, min, max, 16, max);
 
         var shapes = new VoxelShape[1 << DIRECTIONS.length];
 
-        for(int mask = 0; mask < shapes.length; mask++) {
+        for (int mask = 0; mask < shapes.length; mask++) {
             var shape = core;
 
             for (var dir : DIRECTIONS) {
-                if((mask & (1 << dir.ordinal())) == 0) {
+                if ((mask & (1 << dir.ordinal())) == 0) {
                     continue;
                 }
 

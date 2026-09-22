@@ -8,6 +8,7 @@
 
   "block.streamlined.battery": "Example Battery",
   "block.streamlined.copper_energy_cable": "Copper Energy Cable",
+  "block.streamlined.aluminium_energy_cable": "Aluminium Energy Cable",
   "block.streamlined.brass_energy_cable": "Brass Energy Cable",
   "block.streamlined.generator": "Example Generator",
 
@@ -19,5 +20,6 @@
 
   "jei.streamlined.generator": "Burns coal or charcoal from its slot (400 ticks per item) and produces 20 FE/t. Pushes energy into adjacent storages and cables.",
   "jei.streamlined.battery": "Stores up to 10,000 FE. Fills and drains at 100 FE/t through cables.",
-  "jei.streamlined.cable": "Connects generators, batteries and machines from other mods into one network. Throughput: 100 FE/t, limited by the slowest cable."
+  "jei.streamlined.cable": "Connects generators, batteries and machines from other mods into one network. Throughput: 100 FE/t, limited by the slowest cable.",
+  "config.jade.plugin_streamlined.info": "Streamlined Info"
 }

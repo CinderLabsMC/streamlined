@@ -12,7 +12,7 @@ public record CableGeometry(int collisionWidth, float renderScale, Identifier bl
     private static final Identifier STANDARD_ANIMATION = id("block/cable");
 
     public CableGeometry {
-        if(collisionWidth < 1 || collisionWidth > 16) {
+        if (collisionWidth < 1 || collisionWidth > 16) {
             throw new IllegalArgumentException("Cable width must be between 1 and 16 pixels");
         }
 

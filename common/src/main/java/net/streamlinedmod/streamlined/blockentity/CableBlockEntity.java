@@ -34,14 +34,6 @@ public final class CableBlockEntity extends BlockEntity implements EnergyProvide
     }
 
     @Override
-    public void registerControllers(AnimatableManager.@NonNull ControllerRegistrar controllerRegistrar) {}
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
-    }
-
-    @Override
     public @Nullable SimpleEnergy getEnergy(@Nullable Direction side) {
         return null;
     }
@@ -55,5 +47,24 @@ public final class CableBlockEntity extends BlockEntity implements EnergyProvide
         }
 
         CableNetworks.add(server, this);
+    }
+
+    @Override
+    public void setRemoved() {
+        super.setRemoved();
+
+        if (!(level instanceof ServerLevel server)) {
+            return;
+        }
+
+        CableNetworks.remove(server, this);
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.@NonNull ControllerRegistrar controllers) {}
+
+    @Override
+    public @NonNull AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
     }
 }

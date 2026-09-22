@@ -1,7 +1,7 @@
 {
   "model": {
     "type": "minecraft:special",
-    "base": "streamlined:item/copper_energy_cable",
+    "base": "streamlined:item/aluminium_energy_cable",
     "model": {
       "type": "geckolib:geckolib"
     }

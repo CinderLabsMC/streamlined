@@ -1,6 +1,6 @@
 package net.streamlinedmod.streamlined.compat.jade;
 
-import net.streamlinedmod.streamlined.block.CopperEnergyCableBlock;
+import net.streamlinedmod.streamlined.block.CableBlock;
 import net.streamlinedmod.streamlined.block.GeneratorBlock;
 import net.streamlinedmod.streamlined.blockentity.GeneratorBlockEntity;
 import snownee.jade.api.IWailaClientRegistration;
@@ -19,6 +19,6 @@ public class StreamlinedJadePlugin implements IWailaPlugin {
     @Override
     public void registerClient(IWailaClientRegistration registration) {
         registration.registerBlockComponent(StreamlinedJadeComponentProvider.INSTANCE, GeneratorBlock.class);
-        registration.registerBlockComponent(StreamlinedJadeComponentProvider.INSTANCE, CopperEnergyCableBlock.class);
+        registration.registerBlockComponent(StreamlinedJadeComponentProvider.INSTANCE, CableBlock.class);
     }
 }

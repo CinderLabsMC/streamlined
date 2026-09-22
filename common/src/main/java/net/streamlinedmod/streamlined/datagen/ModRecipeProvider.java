@@ -6,7 +6,7 @@ import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
-import net.streamlinedmod.streamlined.block.CopperEnergyCableBlock;
+import net.streamlinedmod.streamlined.cable.ModCables;
 
 public class ModRecipeProvider extends RecipeProvider {
 
@@ -16,7 +16,7 @@ public class ModRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildRecipes() {
-        shaped(RecipeCategory.MISC, CopperEnergyCableBlock.CABLE.get(), 8)
+        shaped(RecipeCategory.MISC, ModCables.COPPER.block().get(), 8)
                 .pattern("CCC")
                 .pattern("RBR")
                 .pattern("CCC")
