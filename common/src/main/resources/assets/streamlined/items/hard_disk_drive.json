@@ -1,0 +1,9 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "streamlined:item/hard_disk_drive",
+    "model": {
+      "type": "geckolib:geckolib"
+    }
+  }
+}

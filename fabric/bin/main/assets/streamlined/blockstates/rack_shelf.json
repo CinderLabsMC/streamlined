@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": {"model": "streamlined:block/rack_shelf"},
+    "facing=south": {"model": "streamlined:block/rack_shelf", "y": 180},
+    "facing=west": {"model": "streamlined:block/rack_shelf", "y": 270},
+    "facing=east": {"model": "streamlined:block/rack_shelf", "y": 90}
+  }
+}

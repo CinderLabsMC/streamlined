@@ -5,6 +5,7 @@ import net.minecraft.resources.Identifier;
 import net.streamlinedmod.streamlined.Streamlined;
 import net.streamlinedmod.streamlined.block.Cable;
 import net.streamlinedmod.streamlined.block.Generator;
+import net.streamlinedmod.streamlined.cable.part.PowerSupplyPart;
 import org.jspecify.annotations.NonNull;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
@@ -20,6 +21,16 @@ public enum StreamlinedJadeComponentProvider implements IBlockComponentProvider 
     @Override
     public void appendTooltip(@NonNull ITooltip tooltip, BlockAccessor accessor, @NonNull IPluginConfig config) {
         if (accessor.getBlockEntity() instanceof Cable cable) {
+            var attachment = cable.attachmentAt(accessor.getHitResult());
+
+            if (attachment != null && attachment.part() instanceof PowerSupplyPart) {
+                var data = accessor.getServerData();
+                tooltip.add(Component.translatable("jade.streamlined.energy", data.getLongOr(StreamlinedJadeDataProvider.ENERGY_KEY, 0), data.getLongOr(StreamlinedJadeDataProvider.CAPACITY_KEY, 0)));
+            }
+
+            if (attachment != null) {
+                return;
+            }
 
             switch (cable.type().type()) {
                 case ENERGY -> {

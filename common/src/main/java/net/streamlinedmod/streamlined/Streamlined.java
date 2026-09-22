@@ -1,6 +1,7 @@
 package net.streamlinedmod.streamlined;
 
 import net.streamlinedmod.streamlined.block.ModBlocks;
+import net.streamlinedmod.streamlined.cable.part.CablePartEvents;
 import net.streamlinedmod.streamlined.client.StreamlinedClient;
 import net.streamlinedmod.streamlined.createmodetab.ModCreativeModeTabs;
 import net.streamlinedmod.streamlined.example.ExampleConfig;
@@ -9,7 +10,10 @@ import dev.architectury.utils.EnvExecutor;
 import net.streamlinedmod.streamlined.example.ExampleEntities;
 import net.streamlinedmod.streamlined.example.ExampleEvents;
 import net.streamlinedmod.streamlined.energy.EnergyCableNetworks;
+import net.streamlinedmod.streamlined.item.ModComponents;
+import net.streamlinedmod.streamlined.item.ModItems;
 import net.streamlinedmod.streamlined.menu.ModMenus;
+import net.streamlinedmod.streamlined.storage.StorageNetworks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,12 +27,16 @@ public final class Streamlined {
     public static void init() {
         ExampleConfig.init();
 
+        ModComponents.init();
         ModBlocks.init();
+        ModItems.init();
 
         ModCreativeModeTabs.init();
 
         ModMenus.init();
         EnergyCableNetworks.init();
+        StorageNetworks.init();
+        CablePartEvents.init();
 
         ExampleEntities.init();
         ExampleEvents.init();

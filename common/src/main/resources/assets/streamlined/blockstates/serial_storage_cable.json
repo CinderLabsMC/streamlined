@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "streamlined:block/serial_storage_cable"
+    }
+  }
+}

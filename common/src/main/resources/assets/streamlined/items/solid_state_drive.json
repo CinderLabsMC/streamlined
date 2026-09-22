@@ -1,0 +1,9 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "streamlined:item/solid_state_drive",
+    "model": {
+      "type": "geckolib:geckolib"
+    }
+  }
+}

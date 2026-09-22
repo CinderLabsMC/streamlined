@@ -11,7 +11,7 @@ public final class ModBlocks {
     private ModBlocks() {}
 
     public static void init() {
-        REGISTRAR.load(ModCables.class, Battery.class, Generator.class, RackShelf.class);
+        REGISTRAR.load(ModCables.class, Battery.class, Generator.class, RackShelf.class, Workstation.class);
         REGISTRAR.register();
     }
 }

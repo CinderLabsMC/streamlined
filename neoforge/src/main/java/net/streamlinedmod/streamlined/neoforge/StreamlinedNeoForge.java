@@ -15,6 +15,8 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.streamlinedmod.streamlined.client.GeneratorScreen;
+import net.streamlinedmod.streamlined.client.StorageTerminalScreen;
+import net.streamlinedmod.streamlined.client.WorkstationScreen;
 import net.streamlinedmod.streamlined.menu.ModMenus;
 
 @Mod(Streamlined.MOD_ID)
@@ -27,7 +29,11 @@ public final class StreamlinedNeoForge {
         modBus.addListener(GatherDataEvent.Server.class, event ->
                 event.createReloadableRegistryObjects(ModDataGenerators.reloadableRegistries(NeoForgeBlockLootTables::new), Set.of(Streamlined.MOD_ID)));
 
-        modBus.addListener(RegisterMenuScreensEvent.class, event -> event.register(ModMenus.GENERATOR.get(), GeneratorScreen::new));
+        modBus.addListener(RegisterMenuScreensEvent.class, event -> {
+            event.register(ModMenus.GENERATOR.get(), GeneratorScreen::new);
+            event.register(ModMenus.STORAGE_TERMINAL.get(), StorageTerminalScreen::new);
+            event.register(ModMenus.WORKSTATION.get(), WorkstationScreen::new);
+        });
         container.registerExtensionPoint(IConfigScreenFactory.class,
                 (IConfigScreenFactory) (mod, parent) -> ExampleConfig.screen(parent));
     }

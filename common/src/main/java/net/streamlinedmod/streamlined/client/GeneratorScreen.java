@@ -5,7 +5,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
-import net.streamlinedmod.streamlined.menu.GeneratorMenu;
+import net.streamlinedmod.streamlined.menu.generator.GeneratorMenu;
 import org.jspecify.annotations.NonNull;
 
 public class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {

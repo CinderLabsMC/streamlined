@@ -44,6 +44,10 @@ public record CableType(String name, long rate, Identifier texture, CableGeometr
         return new CableType(name, rate, texture(name), CableGeometry.extraLarge(), type);
     }
 
+    public static CableType storage(String name, long channels, int collisionWidth) {
+        return new CableType(name, channels, texture(name), CableGeometry.storage(collisionWidth), Type.STORAGE);
+    }
+
     public static CableType custom(String name, long rate, int collisionWidth, String blockModel, String itemModel, String animation, Type type) {
         return new CableType(name, rate, texture(name), CableGeometry.custom(collisionWidth, blockModel, itemModel, animation), type);
     }

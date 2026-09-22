@@ -1,0 +1,9 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "streamlined:item/dense_fiber_storage_cable",
+    "model": {
+      "type": "geckolib:geckolib"
+    }
+  }
+}

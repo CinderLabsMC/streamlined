@@ -1,0 +1,9 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "streamlined:item/bronze_energy_cable",
+    "model": {
+      "type": "geckolib:geckolib"
+    }
+  }
+}

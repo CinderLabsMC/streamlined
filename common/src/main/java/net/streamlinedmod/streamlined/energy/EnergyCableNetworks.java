@@ -4,6 +4,7 @@ import dev.architectury.event.events.common.TickEvent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.streamlinedmod.streamlined.block.Cable;
 import net.streamlinedmod.streamlined.cable.CableType;
@@ -58,6 +59,12 @@ public final class EnergyCableNetworks {
         }
 
         state.dirty = true;
+    }
+
+    public static void markDirty(Level level) {
+        if (level instanceof ServerLevel server && STATES.get(server) instanceof LevelState state) {
+            state.dirty = true;
+        }
     }
 
     private static void tick(ServerLevel level) {
@@ -116,7 +123,7 @@ public final class EnergyCableNetworks {
                     for (var dir : DIRECTIONS) {
                         var next = pos.relative(dir);
 
-                        if (!cables.containsKey(next)) {
+                        if (!cables.containsKey(next) || !Cable.isConnected(cable.getLevel(), pos, dir, CableType.Type.ENERGY)) {
                             continue;
                         }
 
@@ -160,7 +167,7 @@ public final class EnergyCableNetworks {
                 for (var dir : DIRECTIONS) {
                     var neighborPos = pos.relative(dir);
 
-                    if (unique.containsKey(neighborPos)) {
+                    if (unique.containsKey(neighborPos) || cable.isBlocked(dir)) {
                         continue;
                     }
 
@@ -170,7 +177,7 @@ public final class EnergyCableNetworks {
                         continue;
                     }
 
-                    if (be instanceof Cable) {
+                    if (be instanceof Cable other && other.type().type() == CableType.Type.ENERGY) {
                         continue;
                     }
 

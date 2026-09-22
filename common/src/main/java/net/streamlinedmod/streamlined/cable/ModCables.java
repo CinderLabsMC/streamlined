@@ -22,41 +22,17 @@ public final class ModCables {
     public static final Entry PLATINUM_ENERGY = register(CableType.large("platinium_energy_cable", 150000, CableType.Type.ENERGY));
     public static final Entry TUNGSTEN_ENERGY = register(CableType.large("tungsten_energy_cable", 300000, CableType.Type.ENERGY));
     public static final Entry IRIDIUM_ENERGY = register(CableType.large("iridium_energy_cable", 750000, CableType.Type.ENERGY));
-    public static final Entry SUPER_CONDUCTOR_ENERGY = register(CableType.custom("superconductor_energy_cable",
-            EnergyCableNetworks.UNLIMITED,
-            12,
-            "block/superconductor_energy_cable",
-            "block/superconductor_energy_cable_item",
-            "block/superconductor_energy_cable",
-            CableType.Type.ENERGY));
+    public static final Entry SUPER_CONDUCTOR_ENERGY = register(CableType.extraLarge("superconductor_energy_cable", EnergyCableNetworks.UNLIMITED, CableType.Type.ENERGY));
 
     // Storage cables - rate = channels
-    public static final Entry SERIAL_STORAGE = register(CableType.small("serial_storage_cable", 2, CableType.Type.STORAGE));
-    public static final Entry COAXIAL_STORAGE = register(CableType.small("coaxial_storage_cable", 4, CableType.Type.STORAGE));
-    public static final Entry RJ45_STORAGE = register(CableType.small("rj45_storage_cable", 8, CableType.Type.STORAGE));
-    public static final Entry CAT8_STORAGE = register(CableType.medium("cat8_storage_cable", 16, CableType.Type.STORAGE));
-    public static final Entry FIBER_OPTIC_STORAGE = register(CableType.medium("fiber_optic_storage_cable", 24, CableType.Type.STORAGE));
-    public static final Entry DENSE_FIBER_STORAGE = register(CableType.custom("dense_fiber_storage_cable",
-            32,
-            8,
-            "block/dense_fiber_storage_cable",
-            "block/dense_fiber_storage_cable_item",
-            "block/dense_fiber_storage_cable",
-            CableType.Type.STORAGE));
-    public static final Entry RESONANT_CRYSTAL_STORAGE = register(CableType.custom("resonant_crystal_storage_cable",
-            64,
-            8,
-            "block/resonant_crystal_storage_cable",
-            "block/resonant_crystal_storage_cable_item",
-            "block/resonant_crystal_storage_cable",
-            CableType.Type.STORAGE));
-    public static final Entry QUANTUM_MATRIX_STORAGE = register(CableType.custom("quantum_matrix_storage_cable",
-            128,
-            12,
-            "block/quantum_matrix_storage_cable",
-            "block/quantum_matrix_storage_cable_item",
-            "block/quantum_matrix_storage_cable",
-            CableType.Type.STORAGE));
+    public static final Entry SERIAL_STORAGE = register(CableType.storage("serial_storage_cable", 2, 4));
+    public static final Entry COAXIAL_STORAGE = register(CableType.storage("coaxial_storage_cable", 4, 4));
+    public static final Entry RJ45_STORAGE = register(CableType.storage("rj45_storage_cable", 8, 4));
+    public static final Entry CAT8_STORAGE = register(CableType.storage("cat8_storage_cable", 16, 6));
+    public static final Entry FIBER_OPTIC_STORAGE = register(CableType.storage("fiber_optic_storage_cable", 24, 6));
+    public static final Entry DENSE_FIBER_STORAGE = register(CableType.storage("dense_fiber_storage_cable", 32, 8));
+    public static final Entry RESONANT_CRYSTAL_STORAGE = register(CableType.storage("resonant_crystal_storage_cable", 64, 8));
+    public static final Entry QUANTUM_MATRIX_STORAGE = register(CableType.storage("quantum_matrix_storage_cable", 128, 12));
 
     private ModCables() {
     }

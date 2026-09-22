@@ -11,7 +11,9 @@ import net.streamlinedmod.streamlined.Streamlined;
 import net.streamlinedmod.streamlined.block.Battery;
 import net.streamlinedmod.streamlined.block.Generator;
 import net.streamlinedmod.streamlined.block.RackShelf;
+import net.streamlinedmod.streamlined.block.Workstation;
 import net.streamlinedmod.streamlined.cable.ModCables;
+import net.streamlinedmod.streamlined.item.ModItems;
 
 public class ModCreativeModeTabs {
 
@@ -31,5 +33,15 @@ public class ModCreativeModeTabs {
         CreativeTabRegistry.append(GENERAL_TAB, Generator.TYPE.blockEntry());
 
         CreativeTabRegistry.append(GENERAL_TAB, RackShelf.TYPE.blockEntry());
+
+        CreativeTabRegistry.append(GENERAL_TAB, Workstation.TYPE.blockEntry());
+
+        CreativeTabRegistry.append(GENERAL_TAB, ModItems.SERVER);
+        CreativeTabRegistry.append(GENERAL_TAB, ModItems.HARD_DISK_DRIVE);
+        CreativeTabRegistry.append(GENERAL_TAB, ModItems.SOLID_STATE_DRIVE);
+        CreativeTabRegistry.append(GENERAL_TAB, ModItems.STORAGE_TERMINAL);
+        CreativeTabRegistry.append(GENERAL_TAB, ModItems.POWER_SUPPLY);
+        CreativeTabRegistry.append(GENERAL_TAB, ModItems.CABLE_SEPARATOR);
+        CreativeTabRegistry.append(GENERAL_TAB, ModItems.FACADE);
     }
 }

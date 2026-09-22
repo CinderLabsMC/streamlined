@@ -24,7 +24,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.streamlinedmod.streamlined.energy.EnergyBridge;
 import net.streamlinedmod.streamlined.energy.EnergyProvider;
 import net.streamlinedmod.streamlined.energy.SimpleEnergy;
-import net.streamlinedmod.streamlined.menu.GeneratorMenu;
+import net.streamlinedmod.streamlined.menu.generator.GeneratorMenu;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 

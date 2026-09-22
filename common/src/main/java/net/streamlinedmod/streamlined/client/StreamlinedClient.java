@@ -15,6 +15,8 @@ public class StreamlinedClient {
     public static void init() {
         EntityRendererRegistry.register(ExampleEntities.EXAMPLE_ENTITY, ctx -> new ExampleEntityRenderer(ctx, ExampleEntities.EXAMPLE_ENTITY.get()));
 
+        CableRenderer.register();
+
         KeyMappingRegistry.register(OPEN_SCREEN);
 
         ClientTickEvent.CLIENT_POST.register(minecraft -> {
