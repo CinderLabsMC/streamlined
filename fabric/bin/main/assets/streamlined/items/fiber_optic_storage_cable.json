@@ -1,0 +1,9 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "streamlined:item/fiber_optic_storage_cable",
+    "model": {
+      "type": "geckolib:geckolib"
+    }
+  }
+}

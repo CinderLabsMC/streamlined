@@ -1,0 +1,9 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "streamlined:item/tungsten_energy_cable",
+    "model": {
+      "type": "geckolib:geckolib"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "streamlined:block/resonant_crystal_storage_cable"
+  }
+}

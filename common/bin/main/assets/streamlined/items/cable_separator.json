@@ -1,0 +1,9 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "streamlined:item/cable_separator",
+    "model": {
+      "type": "geckolib:geckolib"
+    }
+  }
+}
