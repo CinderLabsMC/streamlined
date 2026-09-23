@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "streamlined:block/cat8_storage_cable"
-  }
-}

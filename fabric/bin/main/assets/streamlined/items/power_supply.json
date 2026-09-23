@@ -1,9 +1,0 @@
-{
-  "model": {
-    "type": "minecraft:special",
-    "base": "streamlined:item/power_supply",
-    "model": {
-      "type": "geckolib:geckolib"
-    }
-  }
-}
