@@ -1,9 +1,0 @@
-{
-  "model": {
-    "type": "minecraft:special",
-    "base": "streamlined:item/rack_shelf",
-    "model": {
-      "type": "geckolib:geckolib"
-    }
-  }
-}

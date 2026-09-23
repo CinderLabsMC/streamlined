@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "streamlined:block/dense_fiber_storage_cable"
-  }
-}

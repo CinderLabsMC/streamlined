@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "streamlined:block/silver_energy_cable"
-  }
-}

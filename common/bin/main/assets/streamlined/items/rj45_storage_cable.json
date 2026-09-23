@@ -1,9 +1,0 @@
-{
-  "model": {
-    "type": "minecraft:special",
-    "base": "streamlined:item/rj45_storage_cable",
-    "model": {
-      "type": "geckolib:geckolib"
-    }
-  }
-}

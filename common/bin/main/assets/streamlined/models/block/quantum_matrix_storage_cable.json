@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "streamlined:block/quantum_matrix_storage_cable"
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "model": {
-    "type": "minecraft:special",
-    "base": "streamlined:item/storage_terminal",
-    "model": {
-      "type": "geckolib:geckolib"
-    }
-  }
-}

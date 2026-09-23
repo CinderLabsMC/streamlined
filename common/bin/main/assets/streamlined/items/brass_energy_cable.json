@@ -1,9 +1,0 @@
-{
-  "model": {
-    "type": "minecraft:special",
-    "base": "streamlined:item/brass_energy_cable",
-    "model": {
-      "type": "geckolib:geckolib"
-    }
-  }
-}
